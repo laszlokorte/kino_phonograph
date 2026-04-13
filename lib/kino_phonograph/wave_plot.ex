@@ -42,13 +42,13 @@ defmodule KinoPhonograph.WavePlot do
 
       mmin =
         min
-        |> Nx.min(Nx.add(min_left, max_left) |> Nx.multiply(0.25))
-        |> Nx.min(Nx.add(min_right, max_right) |> Nx.multiply(0.25))
+        |> Nx.min(Nx.add(min_left, max_left) |> Nx.multiply(0.5))
+        |> Nx.min(Nx.add(min_right, max_right) |> Nx.multiply(0.5))
 
       mmax =
         max
-        |> Nx.max(Nx.add(min_left, max_left) |> Nx.multiply(0.25))
-        |> Nx.max(Nx.add(min_right, max_right) |> Nx.multiply(0.25))
+        |> Nx.max(Nx.add(min_left, max_left) |> Nx.multiply(0.5))
+        |> Nx.max(Nx.add(min_right, max_right) |> Nx.multiply(0.5))
 
       grid =
         Nx.concatenate([
