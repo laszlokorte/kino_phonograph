@@ -50,7 +50,7 @@ defmodule KinoPhonograph.WavePlot do
         |> Nx.max(Nx.add(min_left, max_left) |> Nx.multiply(0.5))
         |> Nx.max(Nx.add(min_right, max_right) |> Nx.multiply(0.5))
 
-      res = Nx.subtract(Nx.reduce_max(audo), Nx.reduce_min(audio))
+      res = Nx.subtract(Nx.reduce_max(audio), Nx.reduce_min(audio))
 
       grid =
         Nx.concatenate([
