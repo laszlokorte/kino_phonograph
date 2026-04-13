@@ -70,7 +70,7 @@ defmodule KinoPhonograph.WavePlot do
           |> Nx.add(Nx.sign(mmin) |> Nx.divide(res))
           |> Nx.greater_equal(mmin),
           grid
-          |> Nx.add(Nx.sign(mmin) |> Nx.divide(res))
+          |> Nx.add(Nx.sign(mmax) |> Nx.divide(res))
           |> Nx.less_equal(mmax)
         )
         |> Nx.new_axis(0)
