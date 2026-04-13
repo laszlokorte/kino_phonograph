@@ -23,3 +23,16 @@ Mix.install([
 ## Example
 
 [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Flaszlokorte%2Fkino_phonograph%2Fblob%2Fmain%2Fguides%2Fexample.livemd)
+
+```elixir
+0.5
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(80) |> Nx.add(1) |> Nx.cos() |> Nx.divide(2))
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(141) |> Nx.add(2) |> Nx.cos() |> Nx.divide(1))
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(62) |> Nx.add(3) |> Nx.cos() |> Nx.divide(4))
+|> KinoPhonograph.WavePlot.plot(
+  width: 800,
+  height: 100,
+  background: {0, 0.5, 0.3, 1.0},
+  foreground: {1, 1, 1, 1}
+)
+```
