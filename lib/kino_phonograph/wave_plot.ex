@@ -63,13 +63,14 @@ defmodule KinoPhonograph.WavePlot do
           |> Nx.multiply(Nx.reduce_min(min))
         ])
         |> Nx.multiply(Nx.broadcast(1, Nx.shape(min)))
-        |> then(&Nx.add(&1, Nx.sign(&1) |> Nx.divide(res)))
 
       wave =
         Nx.logical_and(
           grid
+          |> Nx.add(Nx.sign(mmin) |> Nx.divide(res))
           |> Nx.greater_equal(mmin),
           grid
+          |> Nx.add(Nx.sign(mmin) |> Nx.divide(res))
           |> Nx.less_equal(mmax)
         )
         |> Nx.new_axis(0)
