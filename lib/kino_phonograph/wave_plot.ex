@@ -65,7 +65,7 @@ defmodule KinoPhonograph.WavePlot do
       wave =
         Nx.logical_and(
           grid
-          |> Nx.add(Nx.sign(grid))
+          |> Nx.add(Nx.sign(grid) |> Nx.multiply(5))
           |> Nx.greater_equal(mmin),
           grid
           |> Nx.less_equal(mmax)
