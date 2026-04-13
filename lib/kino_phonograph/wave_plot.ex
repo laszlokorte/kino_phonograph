@@ -50,6 +50,8 @@ defmodule KinoPhonograph.WavePlot do
         |> Nx.max(Nx.add(min_left, max_left) |> Nx.multiply(0.5))
         |> Nx.max(Nx.add(min_right, max_right) |> Nx.multiply(0.5))
 
+      res = Nx.subtract(Nx.reduce_max(audo), Nx.reduce_min(audio))
+
       grid =
         Nx.concatenate([
           Nx.iota({height + padding, 1})
@@ -65,9 +67,10 @@ defmodule KinoPhonograph.WavePlot do
       wave =
         Nx.logical_and(
           grid
-          |> Nx.add(Nx.sign(grid) |> Nx.multiply(5))
+          |> Nx.add(Nx.sign(grid) |> Nx.divide(res))
           |> Nx.greater_equal(mmin),
           grid
+          |> Nx.subtract(Nx.sign(grid) |> Nx.divide(res))
           |> Nx.less_equal(mmax)
         )
         |> Nx.new_axis(0)
