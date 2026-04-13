@@ -25,14 +25,20 @@ Mix.install([
 [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Flaszlokorte%2Fkino_phonograph%2Fblob%2Fmain%2Fguides%2Fexample.livemd)
 
 ```elixir
-0.5
-|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(80) |> Nx.add(1) |> Nx.cos() |> Nx.divide(2))
-|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(141) |> Nx.add(2) |> Nx.cos() |> Nx.divide(1))
-|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(62) |> Nx.add(3) |> Nx.cos() |> Nx.divide(4))
+Nx.iota({1, 8000})
+|> Nx.subtract(4000)
+|> Nx.divide(300)
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(80) |> Nx.add(1) |> Nx.sin() |> Nx.multiply(3))
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(141) |> Nx.add(2) |> Nx.sin() |> Nx.multiply(2))
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(62) |> Nx.add(3) |> Nx.sin() |> Nx.multiply(4))
 |> KinoPhonograph.WavePlot.plot(
+  title: "Sum of Sines",
+  labels: ["Some label"],
   width: 800,
   height: 100,
-  background: {0, 0.5, 0.3, 1.0},
+  background: {0.5, 0.1, 0.5, 1.0},
   foreground: {1, 1, 1, 1}
 )
 ```
+
+![Preview](./preview.png)
