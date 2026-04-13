@@ -40,17 +40,22 @@ defmodule KinoPhonograph.WavePlot do
       max_left = roll(min, 1, 0)
       max_right = roll(min, -1, 0)
 
+      res =
+        Nx.subtract(Nx.reduce_max(audio), Nx.reduce_min(audio))
+        |> Nx.divide(height)
+        |> Nx.divide(2)
+
       mmin =
         min
+        |> Nx.min(max |> Nx.subtract(res))
         |> Nx.min(Nx.add(min_left, max_left) |> Nx.multiply(0.5))
         |> Nx.min(Nx.add(min_right, max_right) |> Nx.multiply(0.5))
 
       mmax =
         max
+        |> Nx.max(min |> Nx.add(res))
         |> Nx.max(Nx.add(min_left, max_left) |> Nx.multiply(0.5))
         |> Nx.max(Nx.add(min_right, max_right) |> Nx.multiply(0.5))
-
-      res = Nx.subtract(Nx.reduce_max(audio), Nx.reduce_min(audio))
 
       grid =
         Nx.concatenate([
@@ -67,10 +72,8 @@ defmodule KinoPhonograph.WavePlot do
       wave =
         Nx.logical_and(
           grid
-          |> Nx.add(Nx.sign(mmin) |> Nx.divide(res))
           |> Nx.greater_equal(mmin),
           grid
-          |> Nx.add(Nx.sign(mmax) |> Nx.divide(res))
           |> Nx.less_equal(mmax)
         )
         |> Nx.new_axis(0)
