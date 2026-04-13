@@ -30,7 +30,7 @@ defmodule KinoPhonograph.WavePlot do
         else
           audio |> KinoPhonograph.Upsampler.upsample_linear(width * 8)
         end
-        |> KinoPhonograph.Downsampler.downsample_minmax(width)
+        |> KinoPhonograph.Downsampler.downsample_minmax(width + 2)
 
       scale = width / length
 
@@ -76,6 +76,7 @@ defmodule KinoPhonograph.WavePlot do
           grid
           |> Nx.less_equal(mmax)
         )
+        |> Nx.slice_along_axis(1, width, axis: 1)
         |> Nx.new_axis(0)
         |> Nx.new_axis(-1)
 

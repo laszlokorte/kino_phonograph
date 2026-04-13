@@ -10,11 +10,12 @@ Mix.install([
 ## Simple example plotting 3 images
 
 ```elixir
-0.5
-|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(80) |> Nx.add(1) |> Nx.cos() |> Nx.divide(2))
-|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(141) |> Nx.add(2) |> Nx.cos() |> Nx.divide(1))
-|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(62) |> Nx.add(3) |> Nx.cos() |> Nx.divide(4))
+0
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(80) |> Nx.add(1) |> Nx.sin() |> Nx.multiply(3))
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(141) |> Nx.add(2) |> Nx.sin() |> Nx.multiply(2))
+|> Nx.add(Nx.iota({1, 8000}) |> Nx.divide(62) |> Nx.add(3) |> Nx.sin() |> Nx.multiply(4))
 |> KinoPhonograph.WavePlot.plot(
+  title: "Sum of Sines",
   width: 800,
   height: 100,
   background: {0, 0.5, 0.3, 1.0},
