@@ -1,7 +1,5 @@
 # KinoPhonograph
 
-![Result Rendered in Livebook](./phonograph.gif)
-
 KinoPhonograph is a helper module for rendering 1D and 2D `Nx.Tensor` audio signals as wave forms in [Livebook](https://livebook.dev/).
 
 ## Installation
