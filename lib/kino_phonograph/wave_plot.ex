@@ -12,7 +12,7 @@ defmodule KinoPhonograph.WavePlot do
   def plot(audios = [_ | _], args) do
     width = Keyword.get(args, :width, 512)
     height = Keyword.get(args, :height, 100)
-    padding = Keyword.get(args, :padding, 14)
+    padding = Keyword.get(args, :padding, 10)
     labels = Keyword.get(args, :labels, [])
     titel = Keyword.get(args, :titel, "Waveforms")
     bg_color = Keyword.get(args, :background, {1, 1, 1, 1}) |> Tuple.to_list()
@@ -23,6 +23,16 @@ defmodule KinoPhonograph.WavePlot do
     for {audio, ai} <- audios |> Enum.with_index() do
       length = Nx.axis_size(audio, 1)
       {range_start, range_end, range_color} = ranges |> Enum.at(ai, {0, 0, {0, 0, 0, 0}})
+
+      vmin = Keyword.get(args, :vmin, Nx.reduce_min(audio))
+      vmax = Keyword.get(args, :vmax, Nx.reduce_max(audio)) |> Nx.subtract(vmin)
+
+      audio =
+        audio
+        |> then(&Nx.subtract(&1, vmin))
+        |> then(&Nx.divide(&1, vmax))
+        |> Nx.subtract(0.5)
+        |> Nx.multiply(2)
 
       {min, max} =
         if length / 2 > width do
@@ -40,32 +50,31 @@ defmodule KinoPhonograph.WavePlot do
       max_left = roll(min, 1, 0)
       max_right = roll(min, -1, 0)
 
-      res =
-        Nx.subtract(Nx.reduce_max(audio), Nx.reduce_min(audio))
+      ampl =
+        Nx.reduce_max(Nx.abs(audio))
+        |> Nx.max(1)
         |> Nx.divide(height)
-        |> Nx.divide(2)
 
       mmin =
         min
-        |> Nx.min(max |> Nx.subtract(res))
+        |> Nx.min(max |> Nx.subtract(ampl))
         |> Nx.min(Nx.add(min_left, max_left) |> Nx.multiply(0.5))
         |> Nx.min(Nx.add(min_right, max_right) |> Nx.multiply(0.5))
 
       mmax =
         max
-        |> Nx.max(min |> Nx.add(res))
+        |> Nx.max(min |> Nx.add(ampl))
         |> Nx.max(Nx.add(min_left, max_left) |> Nx.multiply(0.5))
         |> Nx.max(Nx.add(min_right, max_right) |> Nx.multiply(0.5))
 
       grid =
         Nx.concatenate([
-          Nx.iota({height + padding, 1})
-          |> Nx.divide(height)
+          Nx.iota({height * 2 + padding * 2, 1})
+          |> Nx.subtract(height)
+          |> Nx.add(0.5)
+          |> Nx.subtract(padding)
           |> Nx.reverse(axes: [0])
-          |> Nx.multiply(Nx.reduce_max(max)),
-          Nx.iota({height + padding, 1})
-          |> Nx.divide(height)
-          |> Nx.multiply(Nx.reduce_min(min))
+          |> Nx.multiply(ampl)
         ])
         |> Nx.multiply(Nx.broadcast(1, Nx.shape(min)))
 
@@ -115,15 +124,22 @@ defmodule KinoPhonograph.WavePlot do
         |> Nx.add(marked)
         |> Nx.multiply(Nx.subtract(1, wave))
 
-      Nx.add(fg, bg)
-      |> Nx.multiply(255)
+      if debug do
+        grid
+        |> Nx.slice_along_axis(1, width, axis: 1)
+        |> Nx.new_axis(-1)
+      else
+        Nx.add(fg, bg)
+        |> Nx.multiply(255)
+      end
     end
     |> KinoZoetrope.TensorStack.new(
       size: width,
       legend: debug,
       show_meta: debug,
       labels: labels,
-      titel: titel
+      titel: titel,
+      sharp: false
     )
   end
 
