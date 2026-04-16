@@ -38,7 +38,7 @@ defmodule KinoPhonograph.MixProject do
       {:nx, "~> 0.11.0"},
       {:kino, "~> 0.19.0"},
       {:image, "~> 0.62.1"},
-      {:kino_zoetrope, "~> 0.22.0"},
+      {:kino_zoetrope, "~> 0.23.0"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end

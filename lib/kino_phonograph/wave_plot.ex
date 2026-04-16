@@ -134,12 +134,15 @@ defmodule KinoPhonograph.WavePlot do
       end
     end
     |> KinoZoetrope.TensorStack.new(
-      size: width,
-      legend: debug,
-      show_meta: debug,
-      labels: labels,
-      titel: titel,
-      sharp: false
+      [
+        size: width,
+        legend: debug,
+        show_meta: debug,
+        labels: labels,
+        titel: titel,
+        sharp: false
+      ]
+      |> Keyword.merge(args)
     )
   end
 
