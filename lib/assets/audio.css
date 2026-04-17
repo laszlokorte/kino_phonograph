@@ -1,0 +1,29 @@
+h1,
+h2,
+h3,
+h4 {
+    margin: 0;
+}
+audio {
+    width: 100%;
+}
+
+.meta-list {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 1ex 2em;
+    justify-content: start;
+    padding: 1ex;
+}
+
+dl,
+dt,
+dd {
+    margin: 0;
+}
+
+.row {
+    margin: 1ex 0;
+    background: #fff;
+    padding: 1ex;
+}
