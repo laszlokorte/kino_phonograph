@@ -21,10 +21,6 @@ defmodule KinoPhonograph.WavePlot do
     ranges = Keyword.get(args, :ranges, [])
 
     for {audio, ai} <- audios |> Enum.with_index() do
-      audio = Nx.vectorize(audio, :channel)
-      length = Nx.axis_size(audio, 0)
-      {range_start, range_end, range_color} = ranges |> Enum.at(ai, {0, 0, {0, 0, 0, 0}})
-
       vmin = Keyword.get(args, :vmin, Nx.reduce_min(audio))
       vmax = Keyword.get(args, :vmax, Nx.reduce_max(audio)) |> Nx.subtract(vmin)
 
@@ -34,6 +30,10 @@ defmodule KinoPhonograph.WavePlot do
         |> then(&Nx.divide(&1, vmax))
         |> Nx.subtract(0.5)
         |> Nx.multiply(2)
+
+      audio = Nx.vectorize(audio, :channel)
+      length = Nx.axis_size(audio, 0)
+      {range_start, range_end, range_color} = ranges |> Enum.at(ai, {0, 0, {0, 0, 0, 0}})
 
       {min, max} =
         if length / 2 > width do
@@ -124,7 +124,6 @@ defmodule KinoPhonograph.WavePlot do
       if debug do
         grid
         |> Nx.slice_along_axis(1, width, axis: 1)
-        |> Nx.new_axis(-1)
       else
         Nx.add(fg, bg)
         |> Nx.multiply(255)
