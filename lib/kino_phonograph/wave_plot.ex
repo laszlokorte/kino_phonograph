@@ -21,7 +21,8 @@ defmodule KinoPhonograph.WavePlot do
     ranges = Keyword.get(args, :ranges, [])
 
     for {audio, ai} <- audios |> Enum.with_index() do
-      length = Nx.axis_size(audio, 1)
+      audio = Nx.vectorize(audio, :channel)
+      length = Nx.axis_size(audio, 0)
       {range_start, range_end, range_color} = ranges |> Enum.at(ai, {0, 0, {0, 0, 0, 0}})
 
       vmin = Keyword.get(args, :vmin, Nx.reduce_min(audio))
@@ -86,7 +87,6 @@ defmodule KinoPhonograph.WavePlot do
           |> Nx.less_equal(mmax)
         )
         |> Nx.slice_along_axis(1, width, axis: 1)
-        |> Nx.new_axis(0)
         |> Nx.new_axis(-1)
 
       time =
@@ -97,7 +97,6 @@ defmodule KinoPhonograph.WavePlot do
           range_color
           |> Tuple.to_list()
         )
-        |> Nx.new_axis(0)
         |> Nx.new_axis(0)
         |> Nx.new_axis(0)
         |> Nx.multiply(
@@ -113,12 +112,10 @@ defmodule KinoPhonograph.WavePlot do
         Nx.tensor(fg_color)
         |> Nx.new_axis(0)
         |> Nx.new_axis(0)
-        |> Nx.new_axis(0)
         |> Nx.multiply(wave)
 
       bg =
         Nx.tensor(bg_color)
-        |> Nx.new_axis(0)
         |> Nx.new_axis(0)
         |> Nx.new_axis(0)
         |> Nx.add(marked)
@@ -133,6 +130,7 @@ defmodule KinoPhonograph.WavePlot do
         |> Nx.multiply(255)
       end
     end
+    |> Nx.new_axis(0)
     |> KinoZoetrope.TensorStack.new(
       [
         size: width,

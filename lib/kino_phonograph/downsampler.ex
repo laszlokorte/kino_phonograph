@@ -1,9 +1,9 @@
 defmodule KinoPhonograph.Downsampler do
   def downsample_minmax(x, target_points) do
-    n = Nx.axis_size(x, 1)
-    chunk = max(div(n, target_points), 1)
+    n = Nx.axis_size(x, 0)
+    chunk = max(div(n, target_points), 0)
 
-    trimmed = Nx.slice_along_axis(x, 0, div(n, chunk) * chunk, axis: 1)
+    trimmed = Nx.slice_along_axis(x, 0, div(n, chunk) * chunk, axis: 0)
 
     reshaped =
       trimmed
