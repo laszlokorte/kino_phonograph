@@ -128,8 +128,8 @@ defmodule KinoPhonograph.WavePlot do
         Nx.add(fg, bg)
         |> Nx.multiply(255)
       end
+      |> Nx.new_axis(0)
     end
-    |> Nx.new_axis(0)
     |> KinoZoetrope.TensorStack.new(
       [
         size: width,
