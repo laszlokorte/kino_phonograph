@@ -90,7 +90,7 @@ defmodule KinoPhonograph.WavePlot do
         |> Nx.new_axis(-1)
 
       time =
-        Nx.iota({Nx.axis_size(wave, 2)})
+        Nx.iota({Nx.axis_size(wave, 1)})
 
       marked =
         Nx.tensor(
