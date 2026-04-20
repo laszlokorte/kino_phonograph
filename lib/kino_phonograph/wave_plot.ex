@@ -137,6 +137,7 @@ defmodule KinoPhonograph.WavePlot do
         show_meta: debug,
         labels: labels,
         titel: titel,
+        frame_label: "Channel",
         sharp: false
       ]
       |> Keyword.merge(args)
