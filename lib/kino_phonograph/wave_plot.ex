@@ -128,7 +128,7 @@ defmodule KinoPhonograph.WavePlot do
         Nx.add(fg, bg)
         |> Nx.multiply(255)
       end
-      |> Nx.new_axis(0)
+      |> Nx.devectorize()
     end
     |> KinoZoetrope.TensorStack.new(
       [
