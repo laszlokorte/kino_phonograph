@@ -14,7 +14,7 @@ defmodule KinoPhonograph.WavePlot do
     height = Keyword.get(args, :height, 100)
     padding = Keyword.get(args, :padding, 10)
     labels = Keyword.get(args, :labels, [])
-    titel = Keyword.get(args, :titel, "Waveforms")
+    title = Keyword.get(args, :title, "Waveforms")
     bg_color = Keyword.get(args, :background, {1, 1, 1, 1}) |> Tuple.to_list()
     fg_color = Keyword.get(args, :foreground, {0, 0, 0, 1}) |> Tuple.to_list()
     debug = Keyword.get(args, :debug, false)
@@ -136,7 +136,7 @@ defmodule KinoPhonograph.WavePlot do
         legend: debug,
         show_meta: debug,
         labels: labels,
-        titel: titel,
+        title: title,
         frame_label: "Channel",
         sharp: false
       ]

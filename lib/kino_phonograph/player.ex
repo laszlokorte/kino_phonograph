@@ -49,7 +49,7 @@ defmodule KinoPhonograph.Player do
 
     Kino.JS.new(__MODULE__, %{
       tracks: tracks,
-      titel: Keyword.get(args, :titel, "Audios"),
+      title: Keyword.get(args, :title, "Audios"),
       show_meta: args |> Keyword.get(:show_meta, true),
       sample_rate: Keyword.get(args, :sample_rate)
     })

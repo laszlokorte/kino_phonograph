@@ -4,7 +4,7 @@ defmodule KinoPhonograph.MixProject do
   def project do
     [
       app: :kino_phonograph,
-      version: "0.7.0",
+      version: "0.9.0",
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -35,10 +35,10 @@ defmodule KinoPhonograph.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nx, "~> 0.11.0"},
+      {:nx, "~> 0.12.0"},
       {:kino, "~> 0.19.0"},
       {:image, "~> 0.62.1"},
-      {:kino_zoetrope, "~> 0.23.0"},
+      {:kino_zoetrope, "~> 0.25.0"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
